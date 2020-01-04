@@ -1,6 +1,6 @@
 from tkinter import *
 from Sudoku import *
-
+from time import sleep
 
 class Graphics:
     def __init__(self, window, ts):
@@ -79,7 +79,25 @@ class Graphics:
                 self.tiles[i][j] = Label(self.window, image=self.blank_sprite, height=self.ts, width=self.ts, bg="white", borderwidth=1, relief="solid")
                 self.tiles[i][j].grid(row=i, column=j)
 
+        self.solve_button = Button(text="Solve", command=self.solve)
+        self.solve_button.grid(row=9, column=9)
+
+        self.board_generator = self.sudoku.solve_board()
         self.draw_board()
+
+    def solve(self):
+        try:
+            b = next(self.board_generator)
+            for i in range(9):
+                for j in range(9):
+                    if self.sudoku.board[i][j] != 0:
+                        sprite = self.yellow_numbers[str(b[i][j])]
+                    else:
+                        sprite = self.beige_numbers[str(b[i][j])]
+                    self.tiles[i][j].config(image=sprite)
+                    self.window.after_idle(func=self.solve)
+        except StopIteration:
+            pass
 
     def draw_board(self):
         self.window.unbind("<Key>")

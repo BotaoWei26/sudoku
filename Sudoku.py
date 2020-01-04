@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+from solveFunctions import solve_generator
 
 class Sudoku:
     def __init__(self):
@@ -48,3 +48,8 @@ class Sudoku:
                 [self.curr_board[r][col] for r in range(9)].count(num) >= 2 or \
                 [self.curr_board[r][c] for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)].count(num) >= 2:
                     self.red.append([row, col])
+
+
+    def solve_board(self):
+        for b in solve_generator(self.board):
+            yield b
