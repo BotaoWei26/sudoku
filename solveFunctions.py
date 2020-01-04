@@ -2,8 +2,8 @@ from copy import deepcopy
 
 
 
-def solve_generator(b):
-    b_original = deepcopy(b)
+def solve_generator(b_original):
+    b = deepcopy(b_original)
     counter = 0
     last = []
     while counter < 81:
@@ -47,4 +47,22 @@ def valid_group(g):
             return False
         else:
             seen.append(i)
+    return True
+
+def valid_board(b):
+    for i in b:
+        for j in i:
+            if j == 0:
+                return False
+    for row in range(9):
+        if not valid_group(b[row]):
+            return False
+    for col in range(9):
+        if not valid_group([b[row][col] for row in range(9)]):
+            return False
+    for square in range(9):
+        start_row = (square // 3) * 3
+        start_col = (square % 3) * 3
+        if not valid_group([b[row][col] for row in range(start_row, start_row + 3) for col in range(start_col, start_col + 3)]):
+            return False
     return True

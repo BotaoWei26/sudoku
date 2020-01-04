@@ -1,6 +1,6 @@
-from Graphics import *
+from LevelSelect import LevelSelect
 from tkinter import *
 
 root = Tk()
-g = Graphics(root, 64)
+g = LevelSelect(root, 64)
 root.mainloop()

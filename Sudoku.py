@@ -1,19 +1,10 @@
 from copy import deepcopy
-from solveFunctions import solve_generator
+from solveFunctions import solve_generator, valid_board
 
 class Sudoku:
-    def __init__(self):
-        #self.board = [[0 for i in range(9)] for i in range(9)]
+    def __init__(self, b):
 
-        self.board =[[0, 4, 0, 0, 0, 0, 1, 7, 9],
-                     [0, 0, 2, 0, 0, 8, 0, 5, 4],
-                     [0, 0, 6, 0, 0, 5, 0, 0, 8],
-                     [0, 8, 0, 0, 7, 0, 9, 1, 0],
-                     [0, 5, 0, 0, 9, 0, 0, 3, 0],
-                     [0, 1, 9, 0, 6, 0, 0, 4, 0],
-                     [3, 0, 0, 4, 0, 0, 7, 0, 0],
-                     [5, 7, 0, 1, 0, 0, 2, 0, 0],
-                     [9, 2, 8, 0, 0, 0, 0, 6, 0]]
+        self.board = b
 
         self.curr_board = deepcopy(self.board)
 
@@ -49,7 +40,9 @@ class Sudoku:
                 [self.curr_board[r][c] for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)].count(num) >= 2:
                     self.red.append([row, col])
 
-
     def solve_board(self):
         for b in solve_generator(self.board):
             yield b
+
+    def isFinished(self):
+        return valid_board(self.curr_board)
